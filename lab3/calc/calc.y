@@ -5,6 +5,7 @@
   void printONP();
   void putNumber(int n);
   void putText(const char *s, int length);
+  void clean();
   
   extern int yylineno;  // z lex-a
   int n = 1234577;
@@ -36,7 +37,7 @@ line: END
 	| ERROR		{ printf("Bład: Niepoprawny symbol\n");}
 ;
 
-exp: NUM                 { $$ = ($1 % n); 			putNumber($1 % n); 		}
+exp: NUM                 { $$ = ($1 % n); 			putNumber($1 % n);	}
 	| exp '+' exp        { $$ = addMod($1, $3);		putText("+ ", 2);	}
 	| exp '-' exp        { $$ = addMod($1, negMod($3)); putText("- ", 2);    }
 	| exp '*' exp        { $$ = mulMod($1,$3);  	putText("* ", 2);    }
@@ -48,7 +49,7 @@ exp: NUM                 { $$ = ($1 % n); 			putNumber($1 % n); 		}
 								YYERROR;
 							}
 						 }
-	| '-' exp  %prec NEG { $$ = negMod($2);			putText("- ", 2);		}
+	| '-' exp  %prec NEG { $$ = -($2 % n);			putText("~ ", 2);		}
 	| exp '^' exp        { $$ = powerMod($1,$3);	putText("^ ", 2);	}
 	| '(' exp ')'        { $$ = ($2 % n);					}
 ;
@@ -56,11 +57,15 @@ exp: NUM                 { $$ = ($1 % n); 			putNumber($1 % n); 		}
 %%
 int addMod(int a, int b)
 {
+	if( a < 0) a = negMod(a);
+	if( b < 0) b = negMod(b);
 	return ((a % n) + (b % n)) % n;
 }
 
 int mulMod(int a, int b)
 {
+	if( a < 0) a = negMod(a);
+	if( b < 0) b = negMod(b);
 	int result = 0;
 	b = b % n;
 	a = a % n;
@@ -85,10 +90,19 @@ int invMod(int a)
 
 int divMod(int a, int b)
 {
+	if( a < 0) a = negMod(a);
+	if( b < 0) b = negMod(b);
 	return mulMod(a, invMod(b)); 
 }
 
 int powerMod(int base,int  exponent) {
+
+	if( base < 0) base = negMod(base);
+	if( exponent < 0){
+		exponent = -exponent % n ;
+		base = invMod(base);
+	}
+	//printf("potega\n");
     int result = 1;
     base = base % n;
     exponent = exponent % n;
@@ -126,6 +140,13 @@ void printONP()
 			printf("%d", numbers[numIndex++]);
 		}
 	}
+	clean();
+}
+
+void clean()
+{
+	numbersLength = 0;
+  	top = 0;	
 }
 
 int yyerror(char *s)
@@ -136,8 +157,10 @@ int yyerror(char *s)
 
 int main()
 {
-    yyparse();
-    printf("Przetworzono linii: %d\n",yylineno-1);
+	while(1) {
+    	yyparse();
+    	clean();
+    }
     return 0;
 }
 

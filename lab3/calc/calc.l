@@ -39,6 +39,8 @@ int convertNumber(const char * str, int length)
     	i++;
   	}
   	char *result = (char*) malloc(newSize *sizeof(char));
-  	strncpy(result, s, sizeof(result));
+  	strncpy(result, s, newSize *sizeof(char));
+//	printf("length=%d\tnewSize=%d resultSize=%d\n",length, newSize, sizeof(result));
+// 	printf("lex : %d \n", atoi(result));
 	return atoi(result);
 }

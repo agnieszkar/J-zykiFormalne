@@ -70,6 +70,7 @@
   void printONP();
   void putNumber(int n);
   void putText(const char *s, int length);
+  void clean();
   
   extern int yylineno;  // z lex-a
   int n = 1234577;
@@ -78,7 +79,7 @@
   int numbersLength = 0;
   int top = 0;
 
-#line 82 "calc.tab.c" /* yacc.c:339  */
+#line 83 "calc.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -136,7 +137,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 140 "calc.tab.c" /* yacc.c:358  */
+#line 141 "calc.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -434,8 +435,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    30,    30,    31,    34,    35,    36,    39,    40,    41,
-      42,    43,    51,    52,    53
+       0,    31,    31,    32,    35,    36,    37,    40,    41,    42,
+      43,    44,    52,    53,    54
 };
 #endif
 
@@ -1217,43 +1218,43 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 35 "calc.y" /* yacc.c:1646  */
+#line 36 "calc.y" /* yacc.c:1646  */
     { printONP(); printf("\nWynik:\t%d\n", (yyvsp[-1])); }
-#line 1223 "calc.tab.c" /* yacc.c:1646  */
+#line 1224 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 36 "calc.y" /* yacc.c:1646  */
+#line 37 "calc.y" /* yacc.c:1646  */
     { printf("Bład: Niepoprawny symbol\n");}
-#line 1229 "calc.tab.c" /* yacc.c:1646  */
+#line 1230 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 39 "calc.y" /* yacc.c:1646  */
-    { (yyval) = ((yyvsp[0]) % n); 			putNumber((yyvsp[0]) % n); 		}
-#line 1235 "calc.tab.c" /* yacc.c:1646  */
+#line 40 "calc.y" /* yacc.c:1646  */
+    { (yyval) = ((yyvsp[0]) % n); 			putNumber((yyvsp[0]) % n);	}
+#line 1236 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 40 "calc.y" /* yacc.c:1646  */
+#line 41 "calc.y" /* yacc.c:1646  */
     { (yyval) = addMod((yyvsp[-2]), (yyvsp[0]));		putText("+ ", 2);	}
-#line 1241 "calc.tab.c" /* yacc.c:1646  */
+#line 1242 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 41 "calc.y" /* yacc.c:1646  */
+#line 42 "calc.y" /* yacc.c:1646  */
     { (yyval) = addMod((yyvsp[-2]), negMod((yyvsp[0]))); putText("- ", 2);    }
-#line 1247 "calc.tab.c" /* yacc.c:1646  */
+#line 1248 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 42 "calc.y" /* yacc.c:1646  */
+#line 43 "calc.y" /* yacc.c:1646  */
     { (yyval) = mulMod((yyvsp[-2]),(yyvsp[0]));  	putText("* ", 2);    }
-#line 1253 "calc.tab.c" /* yacc.c:1646  */
+#line 1254 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 43 "calc.y" /* yacc.c:1646  */
+#line 44 "calc.y" /* yacc.c:1646  */
     { 
 							if((yyvsp[0]) % n) {
 								(yyval) = divMod((yyvsp[-2]),(yyvsp[0]));		putText("/ ", 2);
@@ -1262,29 +1263,29 @@ yyreduce:
 								YYERROR;
 							}
 						 }
-#line 1266 "calc.tab.c" /* yacc.c:1646  */
+#line 1267 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 51 "calc.y" /* yacc.c:1646  */
-    { (yyval) = negMod((yyvsp[0]));			putText("- ", 2);		}
-#line 1272 "calc.tab.c" /* yacc.c:1646  */
+#line 52 "calc.y" /* yacc.c:1646  */
+    { (yyval) = -((yyvsp[0]) % n);			putText("~ ", 2);		}
+#line 1273 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 52 "calc.y" /* yacc.c:1646  */
+#line 53 "calc.y" /* yacc.c:1646  */
     { (yyval) = powerMod((yyvsp[-2]),(yyvsp[0]));	putText("^ ", 2);	}
-#line 1278 "calc.tab.c" /* yacc.c:1646  */
+#line 1279 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 53 "calc.y" /* yacc.c:1646  */
+#line 54 "calc.y" /* yacc.c:1646  */
     { (yyval) = ((yyvsp[-1]) % n);					}
-#line 1284 "calc.tab.c" /* yacc.c:1646  */
+#line 1285 "calc.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1288 "calc.tab.c" /* yacc.c:1646  */
+#line 1289 "calc.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1512,15 +1513,19 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 56 "calc.y" /* yacc.c:1906  */
+#line 57 "calc.y" /* yacc.c:1906  */
 
 int addMod(int a, int b)
 {
+	if( a < 0) a = negMod(a);
+	if( b < 0) b = negMod(b);
 	return ((a % n) + (b % n)) % n;
 }
 
 int mulMod(int a, int b)
 {
+	if( a < 0) a = negMod(a);
+	if( b < 0) b = negMod(b);
 	int result = 0;
 	b = b % n;
 	a = a % n;
@@ -1545,10 +1550,19 @@ int invMod(int a)
 
 int divMod(int a, int b)
 {
+	if( a < 0) a = negMod(a);
+	if( b < 0) b = negMod(b);
 	return mulMod(a, invMod(b)); 
 }
 
 int powerMod(int base,int  exponent) {
+
+	if( base < 0) base = negMod(base);
+	if( exponent < 0){
+		exponent = -exponent % n ;
+		base = invMod(base);
+	}
+	//printf("potega\n");
     int result = 1;
     base = base % n;
     exponent = exponent % n;
@@ -1586,17 +1600,27 @@ void printONP()
 			printf("%d", numbers[numIndex++]);
 		}
 	}
+	clean();
+}
+
+void clean()
+{
+	numbersLength = 0;
+  	top = 0;	
 }
 
 int yyerror(char *s)
 {
     printf("Błąd: %s\n",s);	
+    return 0;
 }
 
 int main()
 {
-    yyparse();
-    printf("Przetworzono linii: %d\n",yylineno-1);
+	while(1) {
+    	yyparse();
+    	clean();
+    }
     return 0;
 }
 
